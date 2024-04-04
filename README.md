@@ -1,14 +1,15 @@
 # Khata Sahti App 
 
-![Banner Image](https://github.com/KavyaMistry369/news_app/assets/130814792/3e2c1bf8-c550-470f-9c90-e2ebbc023420)
+![Banner Image](https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/930b89d0-829d-4924-b971-567cda7a9067)
 
-Welcome to the Khata Sathi App! This application provides users with the create khata, update khata, and delete khata along with filtering the credit and debit amount user can make calls and sms to the person who made khata
+Welcome to the Khata Sathi App! This application provides users with the create khata, update khata, and delete khata along with filtering the credit and debit amount user can make calls and SMS to the person who made the khata
 
 ## Features
 
 - Create khata, update khata, and delete khata.
 - filter the amount based on credit and debit.
 - call and SMS functionality to the user to the person who makes khata.
+- Users can also change the theme. 
 
 ## Screenshots
 
@@ -21,8 +22,7 @@ Welcome to the Khata Sathi App! This application provides users with the create 
     <img src="https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/0e0c5806-d0be-4a30-9186-a95140aff8c0" alt="Screenshot 4" width="250"/>
     <img src="https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/eb529d3d-c681-433c-bc99-2205b55127ee" alt="Screenshot 5" width="250"/>
 </div>
-
-
+    
 ## License
 
 This project is licensed under the [MIT License](LICENSE).

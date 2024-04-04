@@ -15,7 +15,7 @@ class _SplashPageState extends State<SplashPage> {
 
   myTimer() {
     Timer.periodic(const Duration(seconds: 5), (timer) {
-      Navigator.of(context).pushReplacementNamed(MyRoutes.home);
+      Navigator.of(context).pushReplacementNamed(MyRoutes.transaction);
     });
   }
 

@@ -162,7 +162,7 @@ class AddPage extends StatelessWidget {
                                       p.changeDate(date: p.mydate));
                               transactionModel.date = d.toString();
                             },
-                            color: CupertinoColors.activeBlue,
+                            color:(Provider.of<Pagecontroller>(context).isDark)? CupertinoColors.systemIndigo:CupertinoColors.activeBlue,
                             iconSize: 35,
                             icon: const Icon(Icons.calendar_month)),
                         IconButton(
@@ -173,7 +173,7 @@ class AddPage extends StatelessWidget {
                               p.changeTime(time: d.toLocal());
                               transactionModel.time = t.toString();
                             },
-                            color: CupertinoColors.activeBlue,
+                            color: (Provider.of<Pagecontroller>(context).isDark)? CupertinoColors.systemIndigo:CupertinoColors.activeBlue,
                             iconSize: 35,
                             icon: const Icon(Icons.access_alarm_outlined))
                       ],

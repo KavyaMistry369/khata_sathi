@@ -7,8 +7,29 @@ class TransactionController extends ChangeNotifier{
 
   List<TransactionModel>allTransactions=[];
 
-  List<TransactionModel> get getAllTransactions {
+  TransactionController(){
+    getAllTransactions();
+  }
+
+  Future<List<TransactionModel>> getAllTransactions() async{
+    allTransactions = await DataHelper.dataHelper.getAllTransaction();
+    notifyListeners();
     return allTransactions;
+  }
+
+  Future<List<TransactionModel>> getFilterTransactions({required String type}) async{
+    allTransactions = await DataHelper.dataHelper.getFilterTransaction(filter: type);
+    notifyListeners();
+    return allTransactions;
+  }
+
+  Future<int>deleteTransaction({required int id})async{
+    notifyListeners();
+    return await DataHelper.dataHelper.deleteTransaction(id: id);
+  }
+
+  Future<int> updateTransaction({required TransactionModel transactionModel})async{
+    return await DataHelper.dataHelper.updateTransaction(transactionModel: transactionModel);
   }
 
 }

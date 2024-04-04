@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum type {credit,debit}
+enum filter {all,credit,debit}
 
 class Pagecontroller extends ChangeNotifier {
 
@@ -8,13 +9,27 @@ class Pagecontroller extends ChangeNotifier {
   PageController pageController = PageController(initialPage: 0);
   int currentSteps = 0;
   type segment = type.credit;
+  filter radio = filter.all;
+  bool visible = false;
+  bool isDark = false;
+
 
   DateTime mydate = DateTime.now();
   TimeOfDay timeMy = TimeOfDay.fromDateTime(DateTime.now());
   DateTime mytime = DateTime.now();
 
+  void changeFilter({required filter val}) {
+    radio = val;
+    notifyListeners();
+  }
+
   void changeType({required type val}) {
     segment = val;
+    notifyListeners();
+  }
+
+  void changeTheme(){
+    isDark=!isDark;
     notifyListeners();
   }
 
@@ -52,6 +67,11 @@ class Pagecontroller extends ChangeNotifier {
       currentSteps--;
     }
    notifyListeners();
+  }
+
+  void isVisible() {
+    visible = !visible;
+    notifyListeners();
   }
 
   void stepTap({required int index}) {

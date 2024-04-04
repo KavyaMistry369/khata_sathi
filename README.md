@@ -22,6 +22,11 @@ Welcome to the Khata Sathi App! This application provides users with the create 
     <img src="https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/0e0c5806-d0be-4a30-9186-a95140aff8c0" alt="Screenshot 4" width="250"/>
     <img src="https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/eb529d3d-c681-433c-bc99-2205b55127ee" alt="Screenshot 5" width="250"/>
 </div>
+
+## Logo
+
+ ![Group 1 (1)](https://github.com/KavyaMistry369/khata_sathi_/assets/130814792/c60ea846-6472-44a0-9bee-fdeac3daff68)
+
     
 ## License
 

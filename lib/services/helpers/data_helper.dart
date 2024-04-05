@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -22,6 +23,8 @@ class DataHelper {
   String trTime = "time";
   String trAmt = "amount";
   String trDate = "date";
+
+  String formatDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   Future<Database?> initDataBase() async {
     String dbPath = await getDatabasesPath();
@@ -77,19 +80,86 @@ class DataHelper {
     List<TransactionModel> allTransactions =
         allData.map((e) => TransactionModel.fromMap(data: e)).toList();
 
+    log(formatDate);
+
     return allTransactions;
   }
 
   Future<List<TransactionModel>> getFilterTransaction({required String filter}) async {
     await initDataBase();
-    String query = "SELECT * FROM $transactionTable WHERE $trType==$filter";
+    String query = "SELECT * FROM $transactionTable WHERE $trType='$filter'";
 
     List allData = (await database!.rawQuery(query));
 
     List<TransactionModel> allTransactions =
     allData.map((e) => TransactionModel.fromMap(data: e)).toList();
 
+    print("---------------");
+    print(allTransactions);
+
     return allTransactions;
+  }
+
+  Future<List<TransactionModel>> getTodayDebit() async {
+    await initDataBase();
+    String query = "SELECT * FROM $transactionTable WHERE $trDate='$formatDate' AND $trType='debit'";
+
+    List allData = (await database!.rawQuery(query));
+
+    List<TransactionModel> allTodayDebit =
+    allData.map((e) => TransactionModel.fromMap(data: e)).toList();
+
+    print("---------------");
+    print(allTodayDebit);
+
+    return allTodayDebit;
+  }
+
+  Future<List<TransactionModel>> calculateDebit() async {
+    await initDataBase();
+    String query = "SELECT amount FROM $transactionTable WHERE $trType='debit'";
+
+    List allData = (await database!.rawQuery(query));
+
+    List<TransactionModel> allDebit =
+    allData.map((e) => TransactionModel.fromMap(data: e)).toList();
+
+    print("---------------");
+    print(allDebit);
+    print("---------------");
+
+    return allDebit;
+  }
+
+  Future<List<TransactionModel>> calculateCredit() async {
+    await initDataBase();
+    String query = "SELECT amount FROM $transactionTable WHERE $trType='credit'";
+
+    List allData = (await database!.rawQuery(query));
+
+    List<TransactionModel> allCredit =
+    allData.map((e) => TransactionModel.fromMap(data: e)).toList();
+
+    print("---------------");
+    print(allCredit);
+    print("---------------");
+
+    return allCredit;
+  }
+
+  Future<List<TransactionModel>> getTodayCredit() async {
+    await initDataBase();
+    String query = "SELECT * FROM $transactionTable WHERE $trDate='$formatDate' AND  $trType='credit'";
+
+    List allData = (await database!.rawQuery(query));
+
+    List<TransactionModel> allTodayCredit =
+    allData.map((e) => TransactionModel.fromMap(data: e)).toList();
+
+    print("---------------");
+    print(allTodayCredit);
+
+    return allTodayCredit;
   }
 
   Future<int> updateTransaction(
@@ -112,9 +182,9 @@ class DataHelper {
     return database!.rawUpdate(query, args);
   }
 
-  Future<int> deleteTransaction({required int id}) async {
+  Future<int> deleteTransaction({required int val}) async {
     await initDataBase();
-    String query = "DELETE FROM $transactionTable WHERE $trId == $id";
+    String query = "DELETE FROM $transactionTable WHERE $trId == $val";
 
     int i = await database!.rawDelete(query);
 

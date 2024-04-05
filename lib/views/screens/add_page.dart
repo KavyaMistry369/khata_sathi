@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:khata_sathi/controllers/page_controller.dart';
 import 'package:khata_sathi/models/transaction_model.dart';
 import 'package:khata_sathi/services/helpers/data_helper.dart';
@@ -160,7 +161,12 @@ class AddPage extends StatelessWidget {
                                   initialDatePickerMode: DatePickerMode.day,
                                   onDatePickerModeChange: (date) =>
                                       p.changeDate(date: p.mydate));
-                              transactionModel.date = d.toString();
+
+                               String formatDate = DateFormat('yyyy-MM-dd').format(d!);
+
+                              log(formatDate);
+
+                              transactionModel.date = formatDate;
                             },
                             color:(Provider.of<Pagecontroller>(context).isDark)? CupertinoColors.systemIndigo:CupertinoColors.activeBlue,
                             iconSize: 35,
@@ -171,7 +177,8 @@ class AddPage extends StatelessWidget {
                                   context: context, initialTime: p.timeMy);
                               DateTime d = DateTime(0, 0, 0, t!.hour, t.minute);
                               p.changeTime(time: d.toLocal());
-                              transactionModel.time = t.toString();
+
+                              transactionModel.time = t.format(context).toString();
                             },
                             color: (Provider.of<Pagecontroller>(context).isDark)? CupertinoColors.systemIndigo:CupertinoColors.activeBlue,
                             iconSize: 35,

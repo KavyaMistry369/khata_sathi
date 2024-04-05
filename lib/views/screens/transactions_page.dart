@@ -15,12 +15,9 @@ class TransactionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TransactionController>(builder: (context, p, _) {
       Pagecontroller pro = Provider.of<Pagecontroller>(context);
-
+      TransactionModel transactionModel = TransactionModel();
       return Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: (){
-            Provider.of<Pagecontroller>(context,listen: false).changeTheme();
-          }, icon: (Provider.of<Pagecontroller>(context).isDark)? const Icon(Icons.light_mode): const Icon(Icons.dark_mode)),
           title: const Text("Transactions"),
           actions: [
             IconButton(
@@ -40,7 +37,8 @@ class TransactionsPage extends StatelessWidget {
                                 Provider.of<Pagecontroller>(context,
                                         listen: false)
                                     .changeFilter(val: value!);
-                                p.getFilterTransactions(type: value.name);
+                                p.getAllTransactions();
+                                Navigator.of(context).pop();
                               },
                             ),
                             RadioListTile(
@@ -52,6 +50,7 @@ class TransactionsPage extends StatelessWidget {
                                         listen: false)
                                     .changeFilter(val: value!);
                                 p.getFilterTransactions(type: value.name);
+                                Navigator.of(context).pop();
                               },
                             ),
                             RadioListTile(
@@ -63,6 +62,7 @@ class TransactionsPage extends StatelessWidget {
                                         listen: false)
                                     .changeFilter(val: value!);
                                 p.getFilterTransactions(type: value.name);
+                                Navigator.of(context).pop();
                               },
                             ),
                           ],
@@ -78,10 +78,16 @@ class TransactionsPage extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: (p.allTransactions.isNotEmpty)
               ? ListView.builder(
-                  itemCount: p.allTransactions.length,
+                  itemCount: (transactionModel.type == filter.all.name)
+                      ? p.allFilterTransactions.length
+                      : p.allTransactions.length,
                   itemBuilder: (context, index) {
-                    TransactionModel transactionModel =
-                        p.allTransactions[index];
+                    TransactionModel transactionmodel =
+                        (transactionModel.type == filter.all.name)
+                            ? p.allFilterTransactions[index]
+                            : p.allTransactions[index];
+
+
 
                     return GestureDetector(
                       onTap: () {
@@ -98,7 +104,7 @@ class TransactionsPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          "Name :- ${transactionModel.name}",
+                                          "Name :- ${transactionmodel.name}",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ],
@@ -106,7 +112,7 @@ class TransactionsPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          "Remark :- ${transactionModel.remark}",
+                                          "Remark :- ${transactionmodel.remark}",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ],
@@ -114,7 +120,7 @@ class TransactionsPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          "Amount :- ${transactionModel.amount}",
+                                          "Amount :- ${transactionmodel.amount}",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ],
@@ -122,26 +128,23 @@ class TransactionsPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          "Phone :- ${transactionModel.phone}",
+                                          "Phone :- ${transactionmodel.phone}",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Date :- ${DateTime.parse(transactionModel.date!)}",
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ],
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Date :- ${transactionmodel.date!}",
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          "Time :- ${transactionModel.time}",
+                                          "Time :- ${transactionmodel.time}",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ],
@@ -169,8 +172,6 @@ class TransactionsPage extends StatelessWidget {
                                           onPressed: () {
                                             p.deleteTransaction(
                                                 id: transactionModel.id!);
-                                            p.allTransactions
-                                                .removeAt(transactionModel.id!);
                                           },
                                           label: const Text("Delete"),
                                           icon: const Icon(Icons.delete),
@@ -188,28 +189,44 @@ class TransactionsPage extends StatelessWidget {
                         );
                       },
                       child: Slidable(
-                        endActionPane: ActionPane(
-                            motion: const ScrollMotion(), children: [
-                          const SizedBox(width: 20,),
-                              IconButton(onPressed: ()async{
-                                  await FlutterPhoneDirectCaller.callNumber(transactionModel.phone!);
-                              }, icon: const Icon(Icons.call,color: Colors.green,)),
-                          const SizedBox(width: 20,),
-                          IconButton(onPressed: () async {
-                            Uri sms=Uri(
-                              scheme: 'sms',
-                              query: "body=Dear ${transactionModel.name}\n you don't give me your amount",
-                              path: transactionModel.phone,
-                            );
-                            await launchUrl(sms);
-                          }, icon: const Icon(Icons.messenger,color: Colors.blueAccent,))
+                        endActionPane:
+                            ActionPane(motion: const ScrollMotion(), children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                await FlutterPhoneDirectCaller.callNumber(
+                                    transactionmodel.phone!);
+                              },
+                              icon: const Icon(
+                                Icons.call,
+                                color: Colors.green,
+                              )),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                Uri sms = Uri(
+                                  scheme: 'sms',
+                                  query:
+                                      "body=Dear ${transactionmodel.name}\n you don't give me your amount",
+                                  path: transactionModel.phone,
+                                );
+                                await launchUrl(sms);
+                              },
+                              icon: const Icon(
+                                Icons.messenger,
+                                color: Colors.blueAccent,
+                              ))
                         ]),
                         child: Card(
                           child: ListTile(
-                            title: Text("${transactionModel.name}"),
-                            subtitle: Text("${transactionModel.remark}"),
-                            trailing: Text("${transactionModel.amount}"),
-                            leading: (transactionModel.type == "credit")
+                            title: Text("${transactionmodel.name}"),
+                            subtitle: Text("${transactionmodel.remark}"),
+                            trailing: Text("${transactionmodel.amount}"),
+                            leading: (transactionmodel.type == "credit")
                                 ? const CircleAvatar(
                                     radius: 5,
                                     backgroundColor: Colors.green,
@@ -223,13 +240,23 @@ class TransactionsPage extends StatelessWidget {
                       ),
                     );
                   })
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: (pro.isDark)?Image.asset("lib/views/assets/1.png",width: 300,):Image.asset("lib/views/assets/2.png",width: 300,),
+                    ),
+                  Text("Add Your Khata",style: TextStyle(fontSize: 25),),
+                ],
+              )
         ),
-        floatingActionButton: FloatingActionButton.extended(onPressed: (){
-          Navigator.of(context).pushNamed(MyRoutes.add);
-        }, label: const Text("Add"),icon: const Icon(Icons.add),),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).pushNamed(MyRoutes.add);
+          },
+          label: const Text("Add"),
+          icon: const Icon(Icons.add),
+        ),
       );
     });
   }

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:khata_sathi/services/helpers/data_helper.dart';
 import 'package:khata_sathi/utils/routes.dart';
 import 'package:khata_sathi/views/screens/add_page.dart';
+import 'package:khata_sathi/views/screens/dashboard_page.dart';
 import 'package:khata_sathi/views/screens/edit_page.dart';
+import 'package:khata_sathi/views/screens/home_page.dart';
 import 'package:khata_sathi/views/screens/splash_page.dart';
 import 'package:khata_sathi/views/screens/transactions_page.dart';
 import 'package:provider/provider.dart';
@@ -50,8 +52,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const SplashPage(),
+        MyRoutes.home:(context) => const HomePage(),
         MyRoutes.transaction: (context) => const TransactionsPage(),
         MyRoutes.add: (context) => const AddPage(),
+        MyRoutes.db:(context) => const DashboardPage(),
         MyRoutes.edit: (context) => const EditPage(),
       },
     );

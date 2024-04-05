@@ -28,7 +28,7 @@ class DataHelper {
 
   Future<Database?> initDataBase() async {
     String dbPath = await getDatabasesPath();
-    String dbName = "Database2.db";
+    String dbName = "Database3.db";
 
     String path = join(dbPath, dbName);
 

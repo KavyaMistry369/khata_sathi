@@ -74,181 +74,185 @@ class TransactionsPage extends StatelessWidget {
                 icon: const Icon(Icons.filter_alt_rounded))
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: (p.allTransactions.isNotEmpty)
-              ? ListView.builder(
-                  itemCount: (transactionModel.type == filter.all.name)
-                      ? p.allFilterTransactions.length
-                      : p.allTransactions.length,
-                  itemBuilder: (context, index) {
-                    TransactionModel transactionmodel =
-                        (transactionModel.type == filter.all.name)
-                            ? p.allFilterTransactions[index]
-                            : p.allTransactions[index];
+        body: FutureBuilder(
+          future: p.getAllTransactions(),
+          builder: (context,snapshots) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: (p.allTransactions.isNotEmpty)
+                  ? ListView.builder(
+                      itemCount: (transactionModel.type == filter.all.name)
+                          ? p.allFilterTransactions.length
+                          : p.allTransactions.length,
+                      itemBuilder: (context, index) {
+                        TransactionModel transactionmodel =
+                            (transactionModel.type == filter.all.name)
+                                ? p.allFilterTransactions[index]
+                                : p.allTransactions[index];
 
 
-
-                    return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog.adaptive(
-                            title: const Text("Details"),
-                            actions: [
-                              SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
+                        return GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog.adaptive(
+                                title: const Text("Details"),
+                                actions: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "Name :- ${transactionmodel.name}",
-                                          style: TextStyle(fontSize: 18),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Name :- ${transactionmodel.name}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Remark :- ${transactionmodel.remark}",
-                                          style: TextStyle(fontSize: 18),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Remark :- ${transactionmodel.remark}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Amount :- ${transactionmodel.amount}",
-                                          style: TextStyle(fontSize: 18),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Amount :- ${transactionmodel.amount}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Phone :- ${transactionmodel.phone}",
-                                          style: TextStyle(fontSize: 18),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Phone :- ${transactionmodel.phone}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Date :- ${transactionmodel.date!}",
-                                          style: const TextStyle(fontSize: 18),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Date :- ${transactionmodel.date!}",
+                                              style: const TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Time :- ${transactionmodel.time}",
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ElevatedButton.icon(
-                                          onPressed: () {
-                                            Navigator.of(context).pushNamed(
-                                                MyRoutes.edit,
-                                                arguments: index);
-                                          },
-                                          label: const Text("Edit"),
-                                          icon: const Icon(Icons.edit),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Time :- ${transactionmodel.time}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
                                         ),
                                         const SizedBox(
-                                          width: 20,
+                                          height: 20,
                                         ),
-                                        TextButton.icon(
-                                          onPressed: () {
-                                            p.deleteTransaction(
-                                                id: transactionModel.id!);
-                                          },
-                                          label: const Text("Delete"),
-                                          icon: const Icon(Icons.delete),
-                                        )
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ElevatedButton.icon(
+                                              onPressed: () {
+                                                Navigator.of(context).pushNamed(
+                                                    MyRoutes.edit,
+                                                    arguments: index);
+                                              },
+                                              label: const Text("Edit"),
+                                              icon: const Icon(Icons.edit),
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            TextButton.icon(
+                                              onPressed: () {
+                                                p.deleteTransaction(
+                                                    id: transactionModel.id!);
+                                              },
+                                              label: const Text("Delete"),
+                                              icon: const Icon(Icons.delete),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            );
+                          },
+                          child: Slidable(
+                            endActionPane:
+                                ActionPane(motion: const ScrollMotion(), children: [
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              IconButton(
+                                  onPressed: () async {
+                                    await FlutterPhoneDirectCaller.callNumber(
+                                        transactionmodel.phone!);
+                                  },
+                                  icon: const Icon(
+                                    Icons.call,
+                                    color: Colors.green,
+                                  )),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              IconButton(
+                                  onPressed: () async {
+                                    Uri sms = Uri(
+                                      scheme: 'sms',
+                                      query:
+                                          "body=Dear ${transactionmodel.name}\n you don't give me your amount",
+                                      path: transactionModel.phone,
+                                    );
+                                    await launchUrl(sms);
+                                  },
+                                  icon: const Icon(
+                                    Icons.messenger,
+                                    color: Colors.blueAccent,
+                                  ))
+                            ]),
+                            child: Card(
+                              child: ListTile(
+                                title: Text("${transactionmodel.name}"),
+                                subtitle: Text("${transactionmodel.remark}"),
+                                trailing: Text("${transactionmodel.amount}"),
+                                leading: (transactionmodel.type == "credit")
+                                    ? const CircleAvatar(
+                                        radius: 5,
+                                        backgroundColor: Colors.green,
+                                      )
+                                    : const CircleAvatar(
+                                        radius: 5,
+                                        backgroundColor: Colors.red,
+                                      ),
+                              ),
+                            ),
                           ),
                         );
-                      },
-                      child: Slidable(
-                        endActionPane:
-                            ActionPane(motion: const ScrollMotion(), children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          IconButton(
-                              onPressed: () async {
-                                await FlutterPhoneDirectCaller.callNumber(
-                                    transactionmodel.phone!);
-                              },
-                              icon: const Icon(
-                                Icons.call,
-                                color: Colors.green,
-                              )),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          IconButton(
-                              onPressed: () async {
-                                Uri sms = Uri(
-                                  scheme: 'sms',
-                                  query:
-                                      "body=Dear ${transactionmodel.name}\n you don't give me your amount",
-                                  path: transactionModel.phone,
-                                );
-                                await launchUrl(sms);
-                              },
-                              icon: const Icon(
-                                Icons.messenger,
-                                color: Colors.blueAccent,
-                              ))
-                        ]),
-                        child: Card(
-                          child: ListTile(
-                            title: Text("${transactionmodel.name}"),
-                            subtitle: Text("${transactionmodel.remark}"),
-                            trailing: Text("${transactionmodel.amount}"),
-                            leading: (transactionmodel.type == "credit")
-                                ? const CircleAvatar(
-                                    radius: 5,
-                                    backgroundColor: Colors.green,
-                                  )
-                                : const CircleAvatar(
-                                    radius: 5,
-                                    backgroundColor: Colors.red,
-                                  ),
-                          ),
+                      })
+                  : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: (pro.isDark)?Image.asset("lib/views/assets/1.png",width: 300,):Image.asset("lib/views/assets/2.png",width: 300,),
                         ),
-                      ),
-                    );
-                  })
-              : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                      child: (pro.isDark)?Image.asset("lib/views/assets/1.png",width: 300,):Image.asset("lib/views/assets/2.png",width: 300,),
-                    ),
-                  Text("Add Your Khata",style: TextStyle(fontSize: 25),),
-                ],
-              )
+                      Text("Add Your Khata",style: TextStyle(fontSize: 25),),
+                    ],
+                  )
+            );
+          }
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {

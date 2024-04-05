@@ -14,7 +14,7 @@ Welcome to the Khata Sathi App! This application provides users with the create 
 ## Screenshots
 
 <div align="center">
-    <img src="https://github.com/KavyaMistry369/khata_sathi/assets/130814792/973defdd-76d0-40d0-81a1-d80a0ff7935a" alt="Screenshot 1" width="150"/>
+    <img src="https://github.com/KavyaMistry369/khata_sathi/assets/130814792/973defdd-76d0-40d0-81a1-d80a0ff7935a" alt="Screenshot 1" width="250"/>
     <img src="https://github.com/KavyaMistry369/khata_sathi/assets/130814792/4c4c2589-9528-4d0a-8c41-414f0988459c" alt="Screenshot 2" width="250"/>
     <img src="https://github.com/KavyaMistry369/khata_sathi/assets/130814792/d1dafdaa-2e8a-45b6-99df-07d6e90dd47b" alt="Screenshot 3" width="250"/>
     <img src="https://github.com/KavyaMistry369/khata_sathi/assets/130814792/cc9357e6-ca17-4dfb-b142-97ea885fb200" alt="Screenshot 4" width="250"/>
